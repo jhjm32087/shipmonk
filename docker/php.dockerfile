@@ -8,7 +8,7 @@ RUN apk add -U --no-cache --update \
     git
 
 # Install Default Docker PHP Extentions
-RUN install-php-extensions xdebug
+RUN install-php-extensions xdebug dom mbstring xml xmlwriter
 
 # Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -17,3 +17,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 
 # PHP.ini
 ADD docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+#Default Directiory
+WORKDIR /app
