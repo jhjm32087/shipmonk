@@ -9,3 +9,16 @@ user in terms of usability and best practices, and apply those.
 1. Run the docker-compose.yml file to start the project.
 2. Run composer install to install the dependencies.
 3. Run phpunit to run the tests.
+
+
+### 💻 Technologies/Packages 
+- Docker
+- Docker Compose
+- Composer
+- PHP 8.4
+- PHPUnit(12.4)
+- Xdebug
+- PHPStan Level(10)
+- Rector
+- CaptainHook
+- PHPCodeSniffer
