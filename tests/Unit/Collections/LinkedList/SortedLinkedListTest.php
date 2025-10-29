@@ -301,4 +301,64 @@ class SortedLinkedListTest extends TestCase
         $this->assertEquals("cat", $list->get(1));
         $this->assertEquals("dog", $list->get(2));
     }
+
+    public function testGetFirstWithIntegers(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert(5);
+        $list->insert(2);
+        $list->insert(8);
+
+        $this->assertEquals(2, $list->getFirst());
+    }
+
+    public function testGetFirstWithStrings(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert("dog");
+        $list->insert("apple");
+        $list->insert("cat");
+
+        $this->assertEquals("apple", $list->getFirst());
+    }
+
+    public function testGetLastWithIntegers(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert(5);
+        $list->insert(2);
+        $list->insert(8);
+
+        $this->assertEquals(8, $list->getLast());
+    }
+
+    public function testGetLastWithStrings(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert("dog");
+        $list->insert("apple");
+        $list->insert("cat");
+
+        $this->assertEquals("dog", $list->getLast());
+    }
+
+    public function testGetFirstOnEmptyListThrowsException(): void
+    {
+        $list = new SortedLinkedList();
+
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Cannot get first element from an empty list");
+
+        $list->getFirst();
+    }
+
+    public function testGetLastOnEmptyListThrowsException(): void
+    {
+        $list = new SortedLinkedList();
+
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Cannot get last element from an empty list");
+
+        $list->getLast();
+    }
 }

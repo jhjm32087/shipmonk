@@ -20,16 +20,6 @@ class SortedLinkedList implements Iterator
     private ?Node $current = null;
     private int $key = 0;
 
-    /**
-     * @param array<int, int|string> $values
-     */
-    public function bulkInsert(array $values): void
-    {
-        foreach ($values as $value) {
-            $this->insert($value);
-        }
-    }
-
     public function insert(int|string $value): self
     {
         $type = $this->findType($value);
@@ -149,6 +139,28 @@ class SortedLinkedList implements Iterator
             return 0;
         }
         return $current->value;
+    }
+
+    public function getFirst(): int|string
+    {
+        if ($this->head === null) {
+            throw new OutOfBoundsException(
+                "Cannot get first element from an empty list"
+            );
+        }
+
+        return $this->head->value;
+    }
+
+    public function getLast(): int|string
+    {
+        if ($this->head === null) {
+            throw new OutOfBoundsException(
+                "Cannot get last element from an empty list"
+            );
+        }
+
+        return $this->get($this->size - 1);
     }
 
     public function isEmpty(): bool
