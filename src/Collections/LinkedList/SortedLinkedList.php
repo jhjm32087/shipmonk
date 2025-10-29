@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ShipMonk;
+namespace ShipMonk\Collections\LinkedList;
 
-use InvalidArgumentException;
 use Iterator;
+use PHPUnit\Event\InvalidArgumentException;
 
 /**
  * @implements Iterator<int, int|string>
@@ -19,7 +19,17 @@ class SortedLinkedList implements Iterator
     private ?Node $current = null;
     private int $key = 0;
 
-    public function insert(int|string $value): void
+    /**
+     * @param array<int, int|string> $values
+     */
+    public function bulkInsert(array $values): void
+    {
+        foreach ($values as $value) {
+            $this->insert($value);
+        }
+    }
+
+    public function insert(int|string $value): self
     {
         $type = $this->findType($value);
 
@@ -38,7 +48,7 @@ class SortedLinkedList implements Iterator
             $newNode->next = $this->head;
             $this->head = $newNode;
             $this->size++;
-            return;
+            return $this;
         }
 
         $current = $this->head;
@@ -52,6 +62,7 @@ class SortedLinkedList implements Iterator
         $newNode->next = $current->next;
         $current->next = $newNode;
         $this->size++;
+        return $this;
     }
 
     private function findType(int|string $value): Type

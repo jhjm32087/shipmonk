@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Unit\Collections\LinkedList;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
-use ShipMonk\Node;
-use ShipMonk\SortedLinkedList;
-use ShipMonk\Type;
+use ShipMonk\Collections\LinkedList\Node;
+use ShipMonk\Collections\LinkedList\SortedLinkedList;
+use ShipMonk\Collections\LinkedList\Type;
 
 #[CoversClass(SortedLinkedList::class)]
 #[CoversClass(Node::class)]

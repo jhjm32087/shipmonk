@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShipMonk;
+namespace ShipMonk\Collections\LinkedList;
 
 class Node
 {
