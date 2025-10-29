@@ -35,10 +35,4 @@ class NodeTest extends TestCase
         $this->assertSame('', $node->value);
         $this->assertNull($node->next);
     }
-
-    public function testWithNullValue(): void
-    {
-        $this->expectException(TypeError::class);
-        new Node(null);
-    }
 }

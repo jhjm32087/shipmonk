@@ -18,13 +18,10 @@
         "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting"
       },
       {
-        "action": "./vendor/bin/phpunit"
+        "action": "composer analyze"
       },
       {
-        "action": "./vendor/bin/phpcs --standard=psr12 src"
-      },
-      {
-        "action": "./vendor/bin/rector"
+        "action": "composer test"
       }
     ]
   }

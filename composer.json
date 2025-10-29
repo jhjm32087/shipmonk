@@ -22,6 +22,16 @@
       "Tests\\": "tests/"
     }
   },
+  "scripts": {
+    "analyze": [
+      "./vendor/bin/phpcs --standard=psr12 src",
+      "./vendor/bin/phpstan analyse",
+      "./vendor/bin/rector"
+    ],
+    "test": [
+      "./vendor/bin/phpunit"
+    ]
+  },
   "require-dev": {
     "phpunit/phpunit": "^12.4",
     "phpstan/phpstan": "^2.1",
