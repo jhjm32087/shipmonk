@@ -1,0 +1,181 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ShipMonk;
+
+use InvalidArgumentException;
+use Iterator;
+
+/**
+ * @implements Iterator<int, int|string>
+ */
+class SortedLinkedList implements Iterator
+{
+    private ?Node $head = null;
+    private ?Type $type = null;
+    private int $size = 0;
+
+    private ?Node $current = null;
+    private int $key = 0;
+
+    public function insert(int|string $value): void
+    {
+        $type = $this->findType($value);
+
+        if ($this->type === null) {
+            $this->type = $type;
+        } elseif ($this->type !== $type) {
+            throw new InvalidArgumentException(
+                "Cannot insert $type->name value into a list of {$this->type->name} values"
+            );
+        }
+
+        $newNode = new Node($value);
+
+        //Empty node or value is a less existing head so add to left
+        if ($this->head === null || $value < $this->head->value) {
+            $newNode->next = $this->head;
+            $this->head = $newNode;
+            $this->size++;
+            return;
+        }
+
+        $current = $this->head;
+
+        //Find the node to insert after based on value
+        while ($current->next !== null && $current->next->value < $value) {
+            $current = $current->next;
+        }
+
+        //Insert after current node
+        $newNode->next = $current->next;
+        $current->next = $newNode;
+        $this->size++;
+    }
+
+    private function findType(int|string $value): Type
+    {
+        $getType = gettype($value);
+        return match (true) {
+            $getType === 'integer' => Type::INTEGER,
+            $getType === 'string' => Type::STRING,
+        };
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function remove(int|string $value): bool
+    {
+        //Empty list
+        if ($this->head === null) {
+            return false;
+        }
+
+        //Head is the value to remove
+        if ($this->head->value === $value) {
+            $this->head = $this->head->next;
+            $this->size--;
+            return true;
+        }
+
+        //Find the node to remove
+        $current = $this->head;
+        while ($current->next !== null) {
+            //Next node is the value to remove
+            if ($current->next->value === $value) {
+                //Remove the node
+                $current->next = $current->next->next;
+                $this->size--;
+                return true;
+            }
+            //Next node is less than the value to remove
+            $current = $current->next;
+        }
+
+        return false;
+    }
+
+    public function contains(int|string $value): bool
+    {
+        $current = $this->head;
+        while ($current !== null) {
+            if ($current->value === $value) {
+                return true;
+            }
+            if ($current->value > $value) {
+                return false;
+            }
+            $current = $current->next;
+        }
+        return false;
+    }
+
+    public function count(): int
+    {
+        return $this->size;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->head === null;
+    }
+
+    /**
+     * @return array<int, int|string>
+     */
+    public function toArray(): array
+    {
+        $result = [];
+        $current = $this->head;
+        while ($current !== null) {
+            $result[] = $current->value;
+            $current = $current->next;
+        }
+        return $result;
+    }
+
+    public function clear(): void
+    {
+        $this->head = null;
+        $this->type = null;
+        $this->size = 0;
+        $this->current = null;
+        $this->key = 0;
+    }
+
+    /**
+     * @return int|string|null
+     */
+    public function current(): null|int|string
+    {
+        return $this->current?->value;
+    }
+
+    public function key(): int
+    {
+        return $this->key;
+    }
+
+    public function next(): void
+    {
+        if ($this->current !== null) {
+            $this->current = $this->current->next;
+            $this->key++;
+        }
+    }
+
+    public function rewind(): void
+    {
+        $this->current = $this->head;
+        $this->key = 0;
+    }
+
+    public function valid(): bool
+    {
+        return $this->current !== null;
+    }
+}
