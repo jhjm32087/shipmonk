@@ -1,0 +1,25 @@
+name: PHPUnit Tests
+
+on: [push, pull_request]
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, pdo_mysql
+          ini-values: memory_limit=-1
+          tools: composer, phpunit
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit
