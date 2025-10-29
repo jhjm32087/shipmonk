@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ShipMonk\Collections\LinkedList;
 
 use Iterator;
+use OutOfBoundsException;
 use PHPUnit\Event\InvalidArgumentException;
 
 /**
@@ -128,6 +129,26 @@ class SortedLinkedList implements Iterator
     public function count(): int
     {
         return $this->size;
+    }
+
+    public function get(int $index): int|string
+    {
+        if ($this->head === null || $index < 0 || $index >= $this->size) {
+            throw new OutOfBoundsException(
+                "Index $index is out of bounds for list of size {$this->size}"
+            );
+        }
+
+        $current = $this->head;
+
+        for ($i = 0; $i < $index; $i++) {
+            $current = $current?->next;
+        }
+
+        if ($current === null) {
+            return 0;
+        }
+        return $current->value;
     }
 
     public function isEmpty(): bool

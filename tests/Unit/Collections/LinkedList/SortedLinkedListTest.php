@@ -269,4 +269,36 @@ class SortedLinkedListTest extends TestCase
 
         $this->assertEquals([1, 3, 5], $list->toArray());
     }
+
+    public function testGetFirstElement(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert(5);
+        $list->insert(2);
+        $list->insert(8);
+
+        $this->assertEquals(2, $list->get(0));
+    }
+
+    public function testGetLastElement(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert(5);
+        $list->insert(2);
+        $list->insert(8);
+
+        $this->assertEquals(8, $list->get(2));
+    }
+
+    public function testGetWithStrings(): void
+    {
+        $list = new SortedLinkedList();
+        $list->insert("dog");
+        $list->insert("apple");
+        $list->insert("cat");
+
+        $this->assertEquals("apple", $list->get(0));
+        $this->assertEquals("cat", $list->get(1));
+        $this->assertEquals("dog", $list->get(2));
+    }
 }
