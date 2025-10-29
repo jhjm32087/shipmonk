@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php.dockerfile
+    environment:
+      PHP_EXTENSION_XDEBUG_MODE: 'debug'
+    tty: true
+    volumes:
+      - ./:/var/www/html
