@@ -20,6 +20,12 @@ class SortedLinkedList implements Iterator
     private ?Node $current = null;
     private int $key = 0;
 
+    /**
+     * Inserts a value into the list
+     * @param int|string $value
+     *
+     * @return $this
+     */
     public function insert(int|string $value): self
     {
         $type = $this->findType($value);
@@ -56,20 +62,21 @@ class SortedLinkedList implements Iterator
         return $this;
     }
 
-    private function findType(int|string $value): Type
-    {
-        $getType = gettype($value);
-        return match (true) {
-            $getType === 'integer' => Type::INTEGER,
-            $getType === 'string' => Type::STRING,
-        };
-    }
-
+    /**
+     * Returns the type of the list
+     * @return Type|null
+     */
     public function getType(): ?Type
     {
         return $this->type;
     }
 
+    /**
+     * Removes a value from the list
+     * @param int|string $value
+     *
+     * @return bool
+     */
     public function remove(int|string $value): bool
     {
         //Empty list
@@ -101,6 +108,12 @@ class SortedLinkedList implements Iterator
         return false;
     }
 
+    /**
+     * Checks if the list contains a value
+     * @param int|string $value
+     *
+     * @return bool
+     */
     public function contains(int|string $value): bool
     {
         $current = $this->head;
@@ -116,11 +129,21 @@ class SortedLinkedList implements Iterator
         return false;
     }
 
+    /**
+     * Returns the number of elements in the list
+     * @return int
+     */
     public function count(): int
     {
         return $this->size;
     }
 
+    /**
+     * Returns the value at the specified index
+     * @param int $index
+     *
+     * @return int|string
+     */
     public function get(int $index): int|string
     {
         if ($this->head === null || $index < 0 || $index >= $this->size) {
@@ -141,6 +164,10 @@ class SortedLinkedList implements Iterator
         return $current->value;
     }
 
+    /**
+     * Returns the first element in the list
+     * @return int|string
+     */
     public function getFirst(): int|string
     {
         if ($this->head === null) {
@@ -152,6 +179,10 @@ class SortedLinkedList implements Iterator
         return $this->head->value;
     }
 
+    /**
+     * Returns the last element in the list
+     * @return int|string
+     */
     public function getLast(): int|string
     {
         if ($this->head === null) {
@@ -163,12 +194,17 @@ class SortedLinkedList implements Iterator
         return $this->get($this->size - 1);
     }
 
+    /**
+     * Checks if the list is empty
+     * @return bool
+     */
     public function isEmpty(): bool
     {
         return $this->head === null;
     }
 
     /**
+     * Returns the list as an array
      * @return array<int, int|string>
      */
     public function toArray(): array
@@ -182,6 +218,10 @@ class SortedLinkedList implements Iterator
         return $result;
     }
 
+    /**
+     * Clears the list
+     * @return void
+     */
     public function clear(): void
     {
         $this->head = null;
@@ -199,11 +239,19 @@ class SortedLinkedList implements Iterator
         return $this->current?->value;
     }
 
+    /**
+     * @return int
+     */
     public function key(): int
     {
         return $this->key;
     }
 
+    /**
+     * Moves the internal pointer to the next element in the list.
+     *
+     * @return void
+     */
     public function next(): void
     {
         if ($this->current !== null) {
@@ -212,6 +260,11 @@ class SortedLinkedList implements Iterator
         }
     }
 
+    /**
+     * Resets the iterator to the beginning of the list.
+     *
+     * @return void
+     */
     public function rewind(): void
     {
         $this->current = $this->head;
@@ -221,5 +274,14 @@ class SortedLinkedList implements Iterator
     public function valid(): bool
     {
         return $this->current !== null;
+    }
+
+    private function findType(int|string $value): Type
+    {
+        $getType = gettype($value);
+        return match (true) {
+            $getType === 'integer' => Type::INTEGER,
+            $getType === 'string' => Type::STRING,
+        };
     }
 }
