@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace ShipMonk\Collections\LinkedList;
 
+use Countable;
 use Iterator;
 use OutOfBoundsException;
-use PHPUnit\Event\InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * @implements Iterator<int, int|string>
  */
-class SortedLinkedList implements Iterator
+class SortedLinkedList implements Iterator, Countable
 {
     private ?Node $head = null;
     private ?Type $type = null;
@@ -29,7 +30,7 @@ class SortedLinkedList implements Iterator
      */
     public function insert(int|string $value): self
     {
-        $type = $this->detectType($value);
+        $type = Type::fromValue($value);
 
         if ($this->type === null) {
             $this->type = $type;
@@ -199,7 +200,9 @@ class SortedLinkedList implements Iterator
         }
 
         if ($current === null) {
-            return 0;
+            throw new OutOfBoundsException(
+                "Index $index is out of bounds for list of size {$this->size}"
+            );
         }
         return $current->value;
     }
@@ -287,14 +290,5 @@ class SortedLinkedList implements Iterator
     public function valid(): bool
     {
         return $this->current !== null;
-    }
-
-    private function detectType(int|string $value): Type
-    {
-        $getType = gettype($value);
-        return match (true) {
-            $getType === 'integer' => Type::INTEGER,
-            $getType === 'string' => Type::STRING,
-        };
     }
 }
