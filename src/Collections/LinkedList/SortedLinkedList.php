@@ -22,13 +22,14 @@ class SortedLinkedList implements Iterator
 
     /**
      * Inserts a value into the list
+     *
      * @param int|string $value
      *
      * @return $this
      */
     public function insert(int|string $value): self
     {
-        $type = $this->findType($value);
+        $type = $this->detectType($value);
 
         if ($this->type === null) {
             $this->type = $type;
@@ -40,7 +41,7 @@ class SortedLinkedList implements Iterator
 
         $newNode = new Node($value);
 
-        //Empty node or value is a less existing head so add to left
+        //Empty node or value is a less existing head so add to the left
         if ($this->head === null || $value < $this->head->value) {
             $newNode->next = $this->head;
             $this->head = $newNode;
@@ -50,7 +51,7 @@ class SortedLinkedList implements Iterator
 
         $current = $this->head;
 
-        //Find the node to insert after based on value
+        //Find the node to insert after based on the value
         while ($current->next !== null && $current->next->value < $value) {
             $current = $current->next;
         }
@@ -64,6 +65,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Returns the type of the list
+     *
      * @return Type|null
      */
     public function getType(): ?Type
@@ -73,6 +75,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Removes a value from the list
+     *
      * @param int|string $value
      *
      * @return bool
@@ -110,6 +113,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Checks if the list contains a value
+     *
      * @param int|string $value
      *
      * @return bool
@@ -131,6 +135,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Returns the number of elements in the list
+     *
      * @return int
      */
     public function count(): int
@@ -139,7 +144,42 @@ class SortedLinkedList implements Iterator
     }
 
     /**
+     * Returns the first element in the list
+     *
+     * @return int|string
+     * @throws OutOfBoundsException
+     */
+    public function getFirst(): int|string
+    {
+        if ($this->head === null) {
+            throw new OutOfBoundsException(
+                "Cannot get first element from an empty list"
+            );
+        }
+
+        return $this->head->value;
+    }
+
+    /**
+     * Returns the last element in the list
+     *
+     * @return int|string
+     * @throws OutOfBoundsException
+     */
+    public function getLast(): int|string
+    {
+        if ($this->head === null) {
+            throw new OutOfBoundsException(
+                "Cannot get last element from an empty list"
+            );
+        }
+
+        return $this->get($this->size - 1);
+    }
+
+    /**
      * Returns the value at the specified index
+     *
      * @param int $index
      *
      * @return int|string
@@ -165,37 +205,8 @@ class SortedLinkedList implements Iterator
     }
 
     /**
-     * Returns the first element in the list
-     * @return int|string
-     */
-    public function getFirst(): int|string
-    {
-        if ($this->head === null) {
-            throw new OutOfBoundsException(
-                "Cannot get first element from an empty list"
-            );
-        }
-
-        return $this->head->value;
-    }
-
-    /**
-     * Returns the last element in the list
-     * @return int|string
-     */
-    public function getLast(): int|string
-    {
-        if ($this->head === null) {
-            throw new OutOfBoundsException(
-                "Cannot get last element from an empty list"
-            );
-        }
-
-        return $this->get($this->size - 1);
-    }
-
-    /**
      * Checks if the list is empty
+     *
      * @return bool
      */
     public function isEmpty(): bool
@@ -205,6 +216,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Returns the list as an array
+     *
      * @return array<int, int|string>
      */
     public function toArray(): array
@@ -220,6 +232,7 @@ class SortedLinkedList implements Iterator
 
     /**
      * Clears the list
+     *
      * @return void
      */
     public function clear(): void
@@ -276,7 +289,7 @@ class SortedLinkedList implements Iterator
         return $this->current !== null;
     }
 
-    private function findType(int|string $value): Type
+    private function detectType(int|string $value): Type
     {
         $getType = gettype($value);
         return match (true) {
