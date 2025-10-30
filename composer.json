@@ -3,6 +3,7 @@
   "description": "Interview Question from Shipmonk to create a library that provides a SortedLinkedList",
   "minimum-stability": "stable",
   "license": "proprietary",
+  "version": "1.0.0",
   "authors": [
     {
       "name": "jhjm32087",
